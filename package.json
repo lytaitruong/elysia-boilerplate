@@ -1,15 +1,68 @@
 {
   "name": "elysia-boilerplate",
-  "version": "1.0.50",
+  "description": "Elysia boilerplate support developer can build Restful APIs quickly and safety",
+  "author": "Lý Tại Trường",
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
+  "module": "src/index.js",
+  "private": true,
+  "keywords": [
+    "bun",
+    "elysia",
+    "typescript"
+  ],
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/lytaitruong/elysia-boilerplate.git"
+  },
   "scripts": {
+    "dev": "bun run --watch src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "format": "prettier --write src/**/*.ts",
+    "prepare": "husky install",
+    "commit": "cz",
+    "lint-staged": "lint-staged",
+    "release": "standard-version --no-verify"
   },
   "dependencies": {
     "elysia": "latest"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "@commitlint/cli": "^17.7.2",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "bun-types": "latest",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3"
   },
-  "module": "src/index.js"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && bun run build",
+      "prepare-commit-msg": "exec < /dev/tty && bun cz --hook || true"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "bun format --uncommitted"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "engines": {
+    "bun": ">= 1",
+    "elysia": "> 0.7"
+  }
 }
